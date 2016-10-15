@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
+# VQA DEMO 
+
 import cv2, spacy, numpy as np,sys,os
 from keras.models import model_from_json
 from keras.optimizers import SGD
 from sklearn.externals import joblib
-
 
 from PyQt4 import QtGui
 from PyQt4 import QtCore
@@ -15,7 +15,6 @@ label_encoder_file_name = 'models/VQA/FULL_labelencoder_trainval.pkl'
 CNN_weights_file_name   = 'models/CNN/vgg16_weights (1).h5'
 
 verbose = 1
-
 
 def get_image_model(CNN_weights_file_name):
     ''' Takes the CNN weights file, and returns the VGG model update 
@@ -101,8 +100,8 @@ class VQA_demo(QtGui.QWidget):
         self.input_qstn = QtGui.QLineEdit()
          # Text edit
         
-        
-       
+        self.progress = QtGui.QProgressBar(self)
+        self.progress.setAlignment(QtCore.Qt.AlignCenter)
         
         font=QtGui.QFont()
         font.setPointSize(20)
@@ -145,11 +144,9 @@ class VQA_demo(QtGui.QWidget):
         self.btn_close.clicked.connect(self.close)
         self.btn_close.resize(self.btn_close.sizeHint())
         
-        
         layout1 = QtGui.QHBoxLayout()
         layout1.addWidget(self.l1)
         layout1.addWidget(self.btn_browse)
-        
         
         layout2 = QtGui.QHBoxLayout()
         layout2.addWidget(self.lbl_qstn)
@@ -165,6 +162,7 @@ class VQA_demo(QtGui.QWidget):
         vbox_opt=QtGui.QVBoxLayout()
         vbox_opt.setMargin(0)
         vbox_opt.addWidget(self.lbl_output)
+        vbox_opt.addWidget(self.progress)
         vbox_opt.addWidget(self.te)
         
 #        hbox2.addStretch(0)   
@@ -181,19 +179,16 @@ class VQA_demo(QtGui.QWidget):
 #        fbox.addRow(hbox1)
         
         self.setLayout(vbox_main)
-        self.setGeometry(300, 300, 550, 450)
+        self.setGeometry(200, 200, 1200, 700)
         self.setWindowTitle("VQA-DEMO-demo")
-        self.setWindowIcon(QtGui.QIcon('elephant.png'))
+        self.setWindowIcon(QtGui.QIcon('vqa_logo.png'))
 
-        self.fname=None 
-        self.show()     
+        self.fname=None
         self.result=None
         
-#        self.connect(self.le, QtCore.SIGNAL("returnPressed(void)"),
-#                     self.start_prediction)
-#        
+#        self.progress.setGeometry(200, 80, 250, 20)
+        self.show()     
        
-        
     def Browse(self):
 
         w = QtGui.QWidget()            
@@ -206,39 +201,40 @@ class VQA_demo(QtGui.QWidget):
         self.img_input.setScaledContents(True)
         self.image_file_name=self.fname
         
-        
-#    def close_event(self):
-#        
-##        self.fname=None
-#        self.close()  
-#           
     
     
     def start_prediction(self):
         
 #        cmd = str(self.le.text())
 #        stdouterr = os.popen4(cmd)[1].read()
-#        self.te.setText(stdouterr)
+#        self.te.setText('lets\n\n'+'start')
+        
+        self.completed = 0
+        self.te.setText('')
+            
 
-#        self.te.setText('\n\n\nLoading image features ...')
+#        self.completed = 15
+        self.progress.setValue(15)
         if verbose : print("\n\n\nLoading image features ...")
-        
-        
-#    image_features = get_image_features(args.image_file_name, CNN_weights_file_name)
+
         image_features = get_image_features(self.image_file_name, CNN_weights_file_name)
-#        self.te.setText('\n\n\nLoading question features ...')
+        
+        
+        self.progress.setValue(40)
         if verbose : print("Loading question features ...")
+
         
         self.question = self.input_qstn.text()
-    #    question_features = get_question_features(unicode(args.question, 'utf-8'))
+
         question_features = get_question_features(self.question)
     
-#        self.te.setText('\n\n\n Loading VQA Model ...')
+       
+        self.progress.setValue(70)
         if verbose : print("Loading VQA Model ...")
-        
+            
         vqa_model = get_VQA_model(VQA_weights_file_name)
     
-#        self.te.setText('\n\n\nPredicting result ...')
+        self.progress.setValue(100)
         if verbose : print("\n\n\nPredicting result ...")
 #        
         y_output = vqa_model.predict([question_features, image_features])
@@ -268,43 +264,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-##%%
-#import os
-#import sys 
-#from PyQt4.QtCore import * 
-#from PyQt4.QtGui import * 
-# 
-#def main(): 
-#    app = QApplication(sys.argv) 
-#    w = MyWindow() 
-#    w.show() 
-#    sys.exit(app.exec_()) 
-# 
-#class MyWindow(QWidget): 
-#    def __init__(self, *args): 
-#        QWidget.__init__(self, *args) 
-# 
-#        # create objects
-#        label = QLabel(self.tr("Enter command and press Return"))
-#        self.le = QLineEdit()
-#        self.te = QTextEdit()
-#
-#        # layout
-#        layout = QVBoxLayout(self)
-#        layout.addWidget(label)
-#        layout.addWidget(self.le)
-#        layout.addWidget(self.te)
-#        self.setLayout(layout) 
-#
-#        # create connection
-#        self.connect(self.le, SIGNAL("returnPressed(void)"),
-#                     self.run_command)
-#
-#    def run_command(self):
-#        cmd = str(self.le.text())
-#        stdouterr = os.popen4(cmd)[1].read()
-#        self.te.setText(stdouterr)
-#  
-#if __name__ == "__main__": 
-#    main()
