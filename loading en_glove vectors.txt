@@ -1,0 +1,13 @@
+if 
+
+pyton -m spacy.en.download
+
+does not works
+
+
+
+Run this command in your prompt window to get word embedding vectors
+
+sputnik --name spacy --repository-url http://index.spacy.io install en==1.1.0
+
+sputnik --name spacy en_glove_cc_300_1m_vectors
