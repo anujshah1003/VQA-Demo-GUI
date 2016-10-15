@@ -7,3 +7,5 @@ Read the loading en_glove vectors.txt if you are facing problem with loading the
 
 The original post of Aditya Prakash is available at http://iamaaditya.github.io/2016/04/visual_question_answering_demo_notebook
 His original file is demo.py which you may check.
+
+
