@@ -1,5 +1,5 @@
 # VQA-Demo-GUI
-This repository gives a GUI  using PyQt4 for VQA demo using Keras Deep Learning Library. The VQA model is created using Pre-trained VGG-16 Weight for image Features and glove vectors for question Features.
+This repository gives a GUI  using PyQt4 for VQA demo using Keras Deep Learning Library. The VQA model is created using Pre-trained VGG-16 Weight for image Features and glove vectors for question Features. The video is available at https://www.youtube.com/watch?v=7FB9PvzOuQY&list=PLd9i_xMMzZF5We2-Itv1IUhKamO-mR4Ce
 
 Run the VQA-VGG-16+LSTM-GUI.py script to run the GUI demo.
 
