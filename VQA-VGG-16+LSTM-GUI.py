@@ -226,7 +226,7 @@ class VQA_demo(QtGui.QWidget):
         
         self.question = self.input_qstn.text()
 
-        question_features = get_question_features(self.question)
+        question_features = get_question_features(unicode(self.question,'utf-8'))
     
        
         self.progress.setValue(70)
