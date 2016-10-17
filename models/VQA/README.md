@@ -1,5 +1,6 @@
 # VQA Model 
 
+ Download the weights from https://github.com/iamaaditya/VQA_Demo/blob/master/models/VQA/VQA_MODEL_WEIGHTS.hdf5
 ## Block Diagram
 
 <img src='https://raw.githubusercontent.com/iamaaditya/VQA_Demo/master/model_vqa.png'>
