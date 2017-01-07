@@ -1,9 +1,10 @@
+pip install spacy==0.100.5
+
 if 
 
 pyton -m spacy.en.download
 
 does not works
-
 
 
 Run this command in your prompt window to get word embedding vectors
